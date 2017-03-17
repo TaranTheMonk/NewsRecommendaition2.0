@@ -32,11 +32,11 @@ class SqlFunction():
 
 class VecFunction():
 
-    def buildTypeVec(self):
+    def buildVec(self, newsHistory, newsInformation):
+        typeVec = []
+        sourceVec = []
         return
 
-    def BuildSourceVec(self):
-        return
 
 def main():
     sqlFunction = SqlFunction()
@@ -47,7 +47,8 @@ def main():
     newsInformation = sqlFunction.getNewsInformation()
 
     for deviceId in userNewsCollection.keys():
-        userNewsProfile[deviceId] = {'history': userNewsCollection[deviceId]
+        oneHistory = userNewsCollection[deviceId]
+        userNewsProfile[deviceId] = {'history': oneHistory
                                     , 'TypeVec': []
                                     , 'SourceVec': []}
 
