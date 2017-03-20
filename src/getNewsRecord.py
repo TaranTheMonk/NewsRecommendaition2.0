@@ -33,4 +33,5 @@ def minLog(startDate, stopDate):
         f.close()
         print(currentDate)
         currentDate = timeFunction.oneMoreDay(currentDate)
+    print('Mining log files finished')
     return userNewsCollection
