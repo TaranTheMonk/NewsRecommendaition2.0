@@ -34,23 +34,29 @@ class SqlFunction():
 class ComputeSim():
 
     def cosSim(self, vec1, vec2):
-        return
+        similarity = 1 - spatial.distance.cosine(vec1, vec2)
+        return similarity
 
     def buildSimilarityDict(self, matrix, deviceIdList):
         similarityDict = dict()
-        similarities = cosine_similarity(matrix)
-        print('Compute similarity successfully')
+        # similarities = cosine_similarity(matrix)
+        # print('Compute similarity successfully')
         scale = len(deviceIdList)
-        counter = 0
+        counter1 = 0
         for m in range(len(deviceIdList)):
             mainId = deviceIdList[m]
+            mainVec = matrix[m]
             similarityDict[mainId] = dict()
+            counter2 = 0
             for n in range(len(deviceIdList)):
                 subId = deviceIdList[n]
-                similarityDict[mainId][subId] = similarities[m][n]
-            counter += 1
-            sys.stdout.write('\r' + 'Building similarity dict: %s%%  ' % round((counter/scale) * 100, 1))
-            sys.stdout.flush()  # important
+                subVec = matrix[n]
+                similarityDict[mainId][subId] = self.cosSim(mainVec, subVec)
+                counter2 += 1
+                sys.stdout.write('\r' + 'Computing similarity: %s%%  ' % round((counter2/ scale) * 100, 1))
+                sys.stdout.flush()  # important
+            counter1 += 1
+            print('Building similarity dict: %s%%  ' % round((counter1/scale) * 100, 1))
         print('Build similarity dict successfully')
         return similarityDict
 
@@ -67,7 +73,7 @@ def buildSimIndex():
         tempVec = userProfile[deviceId]["TypeVec"] + userProfile[deviceId]["SourceVec"]
         vecMatrix.append(tempVec)
         deviceList.append(deviceId)
-    similarityDict = computeSim.buildSimilarityDict(vecMatrix, deviceList)
+    similarityDict = computeSim.buildSimilarityDict(vecMatrix[:500], deviceList[:500])
     with open('sampleSimilarityDict.json', 'w', encoding='utf-8') as f:
         json.dump(similarityDict, f)
     f.close()
