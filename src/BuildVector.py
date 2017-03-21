@@ -30,8 +30,8 @@ class SqlFunction():
         for item in userNewsProfile.keys():
             if validIdPattern.match(item):
                 tempTarget = userNewsProfile[item]
-                values_to_insert.append((item, str(tempTarget['history']),
-                                         str(tempTarget['TypeVec']), str(tempTarget['SourceVec'])))
+                values_to_insert.append((item, json.dumps(tempTarget['history']),
+                                         json.dumps(tempTarget['TypeVec']), json.dumps(tempTarget['SourceVec'])))
         query = "insert into user_news_profile (device_id, history, TypeVec, SourceVec) values (%s, %s, %s, %s)"
 
         conn = connector.connect(host='hsdb.cd29ypfepkmi.ap-southeast-1.rds.amazonaws.com',
