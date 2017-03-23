@@ -74,7 +74,7 @@ def buildSimIndex():
         vecMatrix.append(tempVec)
         deviceList.append(deviceId)
         ##here only take 500 samples
-    similarityDict = computeSim.buildSimilarityDict(vecMatrix[:500], deviceList[:500])
+    similarityDict = computeSim.buildSimilarityDict(vecMatrix[:500], deviceList[:1000])
     with open('sampleSimilarityDict.json', 'w', encoding='utf-8') as f:
         json.dump(similarityDict, f)
     f.close()
