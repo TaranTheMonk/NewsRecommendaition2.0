@@ -63,7 +63,8 @@ def buildSimFromNewsHistory():
     userHistory = sqlFunction.getUserHistory()
     historyMatrix, deviceIdMap = computeFunction.buildHistoryMatrixFromHistory(userHistory)
 
-    similarities = computeFunction.buildSimilarityMatrix(historyMatrix, 5000)
+    size = len(historyMatrix)
+    similarities = computeFunction.buildSimilarityMatrix(historyMatrix, size)
     ##roughly %8 of total have no similarity with others
     rowNum = similarities.shape[0]
     similarUserThreshold = 10
@@ -77,8 +78,9 @@ def buildSimFromNewsHistory():
             relationDict[deviceId] = list()
             for similarNum in range(similarUserThreshold):
                 orderColumn = similarityOrder[similarNum]
-                if round(oneSimilarity[orderColumn], 2)!= 0:
-                    relationDict[deviceId].append(deviceIdMap[orderColumn])
+                oneSimilarityScore = round(oneSimilarity[orderColumn], 2)
+                if oneSimilarityScore != 0:
+                    relationDict[deviceId].append((deviceIdMap[orderColumn], oneSimilarityScore))
     print('Build similarity pool successfully')
     with open('sample-relationshipTable.json', 'w', encoding='utf-8') as f:
         json.dump(relationDict, f)
