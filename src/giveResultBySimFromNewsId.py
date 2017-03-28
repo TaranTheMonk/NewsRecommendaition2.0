@@ -51,7 +51,6 @@ def giveRecommendation():
         json.dump(newsPoolDict, f)
     f.close()
     print('Save output successfully')
-    newsOutput
 
 if __name__ == '__main__':
     giveRecommendation()

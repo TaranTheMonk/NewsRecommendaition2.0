@@ -4,11 +4,11 @@ from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
 
-with open('sampleSimilarityDict.json', 'r', encoding ='utf-8') as f:
-    sim = json.load(f)
+with open('newsPoolDict.json', 'r', encoding ='utf-8') as f:
+    pool = json.load(f)
 f.close()
 
-sim = pd.DataFrame(sim)
+sim = pd.DataFrame(pool)
 sim = np.array(sim.values.tolist())
 sim = sim.reshape(1,1000*1000)[0]
 plotSim = list()
