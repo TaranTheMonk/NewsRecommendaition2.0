@@ -3,21 +3,21 @@ import json
 from matplotlib import pyplot as plt
 import pandas as pd
 import numpy as np
+import math
 
-with open('newsPoolDict.json', 'r', encoding ='utf-8') as f:
-    pool = json.load(f)
+with open('sample-relationshipTable.json', 'r', encoding='utf-8') as f:
+    relationship = json.load(f)
 f.close()
 
-sim = pd.DataFrame(pool)
-sim = np.array(sim.values.tolist())
-sim = sim.reshape(1,1000*1000)[0]
-plotSim = list()
-for i in sim:
-    if i != 1:
-        plotSim.append(i)
+sumSim = []
+for item in similarities:
+    if round(item.sum(), 3) > 1:
+        sumSim.append(item.sum())
+plt.hist(sumSim, 100)
 
-a = plt.hist(plotSim, 100, color='g')
-plt.xlabel('Similarity')
-plt.ylabel('Count')
-plt.title('Histogram of Similarity')
-plt.grid(True)
+recordList = []
+for item in similarities:
+    for record in item:
+        if round(record, 3) != 0 and round(record, 3) != 1:
+            recordList.append(record)
+plt.hist(recordList, 100)
